@@ -11,7 +11,8 @@ const home = async (req,res) => {
 
 const login = async (req,res) => {
     res.render('login',{
-        page:'login'
+        page:'login',
+        csrfToken: req.csrfToken()
     });
 }
 

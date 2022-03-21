@@ -20,6 +20,7 @@
       <div id="invalidAlert"></div>
       <div id="successAlert"></div>
         <form action="/admin/login" method="post" id="loginForm">
+          <input type="hidden" name="_csrf" id="token" value="<%= csrfToken %>">
             <h1 class="h3 text-primary mb-3 fw-normal">Login</h1>
             <div class="form-floating">
               <input type="text" name="email" class="form-control border-1 shadow-sm" id="email" placeholder="name@example.com">
@@ -45,7 +46,9 @@ $('#loginForm').submit(function(e){
   e.preventDefault();
   var email = $('#email').val();
   var password = $('#password').val();
+  var token = $('#token').val();
   Userdata = {
+    _csrf:token,
     email:email,
     password:password
   }
