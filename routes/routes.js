@@ -10,5 +10,8 @@ router.get('/register',AdminController.register);
 router.post('/admin/register',AdminController.adminRegister);
 router.post('/admin/login',AdminController.adminLogin);
 
+router.get('/dashboard',AdminController.dashboard);
+
+
 
 module.exports = router;

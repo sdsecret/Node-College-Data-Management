@@ -87,17 +87,25 @@ const adminLogin = async(req,res) => {
         }
         
     }
-
     res.json({
         'errors':messages
     }
    )
 }
 
+
+const dashboard = async (req,res) => {
+    res.render('admin/dashboard',{
+        page:"dashboard"
+    });
+}
+
+
 module.exports = {
     home,
     login,
     register,
     adminRegister,
-    adminLogin
+    adminLogin,
+    dashboard
 }
