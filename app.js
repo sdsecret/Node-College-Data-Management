@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
+const { authUser } = require('./middlewares/auth');
 
 const router = require('./routes/routes');
 const session = require('express-session');
@@ -35,14 +36,9 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
 
-
-
-
-
-
 // routes
+app.get('*',authUser);
 app.use(router);
-
 
 
 // App Host and Port

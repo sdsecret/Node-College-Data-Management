@@ -60,6 +60,7 @@ const adminLogin = async(req,res) => {
                     email:email
                 }
             });
+
             if(!user){
                 return res.json({'status':401,'invalid':'Wrong Email or Password.'});
             }
@@ -80,6 +81,8 @@ const adminLogin = async(req,res) => {
                     }).status(200).json({
                         'success':'Login Successful'
                     });
+                }else{
+                    return res.json({'status':401,'invalid':'Wrong Email or Password.'});
                 }
 
         }catch(e){
@@ -94,11 +97,19 @@ const adminLogin = async(req,res) => {
 }
 
 
+const logout = async (req,res) => {
+    res.clearCookie("access_token").status(200);
+    res.redirect('/login');
+}
+
+
 const dashboard = async (req,res) => {
     res.render('admin/dashboard',{
         page:"dashboard"
     });
 }
+
+
 
 
 module.exports = {
@@ -107,5 +118,6 @@ module.exports = {
     register,
     adminRegister,
     adminLogin,
-    dashboard
+    dashboard,
+    logout
 }
