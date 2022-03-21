@@ -67,8 +67,6 @@ const adminLogin = async(req,res) => {
                 return res.json({'status':401,'invalid':'Wrong Email or Password.'});
             }
 
-            console.log(user);
-
                 if(await bcrypt.compare(password,user.password)){
                     const token = jwt.sign({
                         id:user.id,
