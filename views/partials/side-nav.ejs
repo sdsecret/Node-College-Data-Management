@@ -2,13 +2,13 @@
     <div class="position-sticky pt-3">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link <% if (page === 'dashboard') { %> active <% } %>" aria-current="page" href="#">
+          <a class="nav-link <% if (page === 'dashboard') { %> active <% } %>" aria-current="page" href="/dashboard">
             <span data-feather="home"></span>
             Dashboard
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link <% if (page === 'stream') { %> active <% } %>" href="/streams">
             <span data-feather="airplay"></span>
             Stream
           </a>

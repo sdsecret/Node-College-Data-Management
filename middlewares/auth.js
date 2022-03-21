@@ -6,7 +6,6 @@ const auth = async (req,res,next) => {
     if(token){
         jwt.verify(token,process.env.JWT_SECRET ,(err,authUser) => {
             if(err){
-                console.log(err);
                 res.redirect('/login');
             }else{
                 next();
