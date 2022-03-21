@@ -13,7 +13,7 @@ const flash = require('express-flash');
 
 // csrf Token
 const csrf = require('csurf');
-const csrfProtection = csrf({ cookie: true });
+var csrfProtection = csrf({ cookie: true })
 
 
 // Middlewares
@@ -32,7 +32,7 @@ app.use(session({
 }));
 
 // must call after session
-app.use(csrfProtection);
+// app.use(csrfProtection);
 
 // Setting View Engine
 app.use(expressLayouts);
@@ -40,6 +40,7 @@ app.set('layout', 'layouts/app');
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
+app.use(csrfProtection);
 
 // routes
 app.get('*',authUser);
