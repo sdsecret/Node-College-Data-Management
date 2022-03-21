@@ -4,9 +4,10 @@ const router = express.Router();
 // Controllers
 const AdminController = require('../controllers/AdminController');
 
-
 // Middleware
 const {auth,checkAuth} = require('../middlewares/auth');
+
+
 
 router.get('/',checkAuth,AdminController.home);
 router.get('/login',checkAuth,AdminController.login);

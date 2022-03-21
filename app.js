@@ -11,6 +11,10 @@ const cookieParser = require("cookie-parser");
 var expressLayouts = require('express-ejs-layouts');
 const flash = require('express-flash');
 
+// csrf Token
+const csrf = require('csurf');
+const csrfProtection = csrf({ cookie: true });
+
 
 // Middlewares
 app.use(express.static(__dirname+'/public'));
@@ -27,7 +31,8 @@ app.use(session({
     secret: 'secret'
 }));
 
-
+// must call after session
+app.use(csrfProtection);
 
 // Setting View Engine
 app.use(expressLayouts);

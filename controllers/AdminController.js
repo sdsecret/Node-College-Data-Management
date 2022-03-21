@@ -17,7 +17,8 @@ const login = async (req,res) => {
 
 const register = async (req,res) => {
     res.render('register',{
-        page:'register'
+        page:'register',
+        csrfToken: req.csrfToken()
     });
 }
 
