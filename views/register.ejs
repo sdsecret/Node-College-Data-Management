@@ -1,0 +1,122 @@
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>  
+<link href="/dist/css/signin.css" rel="stylesheet">
+<main class="form-signin">
+    <div class="card p-2 shadow">
+
+       <div id="successAlert">
+
+       </div>
+
+        <form action="/admin/register" method="post" id="registerForm">
+            <h1 class="h3 text-primary mb-3 fw-normal">Register</h1>
+            <div class="form-floating">
+                <input type="text" name="name" class="form-control border-1 shadow-sm" id="name" placeholder="Enter your name">
+                <label for="floatingInput">Name</label>
+                <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="nameError"></span>
+            </div>
+            <br>  
+
+            <div class="form-floating">
+              <input type="text" name="email" class="form-control border-1 shadow-sm" id="email" placeholder="name@example.com">
+              <label for="floatingInput">Email address</label>
+              <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="emailError"></span>
+            </div>
+            <br>
+
+            <div class="form-floating">
+              <input type="password" name="password" class="form-control border-1 shadow-sm" id="password" placeholder="Password">
+              <label for="floatingInput">Password</label>
+              <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="passError"></span>
+            </div>
+            <br>
+
+
+            <button id="signupBtn" class="w-100 btn btn-lg btn-success shadow" type="submit">Register</button>
+            Already have account <a href="/login">Login </a>
+          </form>
+    </div>
+</main>
+
+<script>
+  // $(document).ready(function(){
+  //   $('#successAlert').hide();
+  // });
+</script>
+
+<script>
+   $('#registerForm').submit(function(e){
+      e.preventDefault();
+
+      // const data = JSON.parse($('#registerForm').serializeArray());
+      // var formData = JSON.parse(JSON.stringify(jQuery('#registerForm').serializeArray())) 
+      // var formData = JSON.stringify(jQuery('#registerForm').serializeArray());
+      // console.log(formData);
+
+      var name = $('#name').val();
+      var email = $('#email').val();
+      var password = $('#password').val();
+      Userdata = {
+        name:name,
+        email:email,
+        password:password
+      }
+      // console.log(Userdata);
+      $('#signupBtn').text('Registering..');
+      $("#signupBtn").prop('disabled', true);
+      $.ajax({
+         method:'post',
+         url:'/admin/register',
+         data : JSON.stringify(Userdata),
+         cache : false,
+         processData: false, 
+         contentType: 'application/json',
+         success:function(res){
+            $('#successAlert').html('');
+            $('#nameError').text('');
+            $('#emailError').text('');
+            $('#passError').text('');
+            $('#name').removeClass('is-invalid');
+            $('#email').removeClass('is-invalid');
+            $('#password').removeClass('is-invalid');
+            $('#signupBtn').text('Register');
+            $("#signupBtn").prop('disabled', false);
+            if(res.errors){
+              if(res.errors.name){
+                $('#nameError').text(res.errors.name);
+                $('#name').addClass('is-invalid');
+              }
+              if(res.errors.email){
+                $('#emailError').text(res.errors.email);
+                $('#email').addClass('is-invalid');
+              }
+              if(res.errors.password){
+                $('#passError').text(res.errors.password);
+                $('#password').addClass('is-invalid');
+              }
+            }
+            if(res.success){
+              $('#registerForm')[0].reset();
+              $('#successAlert').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong id="successMsg">${res.success}</strong>
+                <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>`);
+            }
+    
+         }
+      })
+   });
+</script>

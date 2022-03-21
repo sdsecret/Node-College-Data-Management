@@ -1,0 +1,97 @@
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>  
+<link href="/dist/css/signin.css" rel="stylesheet">
+<main class="form-signin">
+    <div class="card p-2 shadow">
+      <div id="invalidAlert"></div>
+      <div id="successAlert"></div>
+        <form action="/admin/login" method="post" id="loginForm">
+            <h1 class="h3 text-primary mb-3 fw-normal">Login</h1>
+            <div class="form-floating">
+              <input type="text" name="email" class="form-control border-1 shadow-sm" id="email" placeholder="name@example.com">
+              <label for="floatingInput">Email address</label>
+              <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="emailError"></span>
+            </div>
+            <br>
+            <div class="form-floating">
+              <input type="password" name="password" class="form-control border-1 shadow-sm" id="password" placeholder="Password">
+              <label for="floatingPassword">Password</label>
+              <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="passError"></span>
+            </div>
+        
+            <button class="w-100 btn btn-lg btn-success shadow" id="loginBtn" type="submit">Login</button>
+            Create new account <a href="/register">Register </a>
+          </form>
+    </div>
+</main>
+  
+
+<script>
+$('#loginForm').submit(function(e){
+  e.preventDefault();
+  var email = $('#email').val();
+  var password = $('#password').val();
+  Userdata = {
+    email:email,
+    password:password
+  }
+  $('#loginBtn').html(` <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+  $('#loginBtn').prop('disabled',true);
+  $.ajax({
+    method:'post',
+    url:'/admin/login',
+    data : JSON.stringify(Userdata),
+    cache : false,
+    processData: false, 
+    contentType: 'application/json',
+    success:function(res){
+      $('#invalidAlert').html('');
+    
+      $('#emailError').text('');
+      $('#passError').text('');
+    
+      $('#email').removeClass('is-invalid');
+      $('#password').removeClass('is-invalid');
+
+      $('#loginBtn').text('Login');
+      $('#loginBtn').prop('disabled',false);
+      if(res.errors){
+        if(res.errors.email){
+          $('#emailError').text(res.errors.email);
+          $('#email').addClass('is-invalid');
+        }
+        if(res.errors.password){
+          $('#passError').text(res.errors.password);
+          $('#password').addClass('is-invalid');
+        }
+      }
+      if(res.invalid){
+        $('#invalidAlert').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong id="successMsg">${res.invalid}</strong>
+                <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>`);
+      }
+      if(res.success){
+        $('#loginForm')[0].reset();
+        $('#successAlert').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong id="successMsg">${res.success}</strong>
+          <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`);
+      }
+    }
+  });
+});
+</script>
