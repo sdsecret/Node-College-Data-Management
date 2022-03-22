@@ -1,8 +1,14 @@
 const Stream = require('../models/Stream');
 
 const index = async (req,res) => {
+    let data = await Stream.findAll({
+        order:[
+            ['id', 'DESC'],
+        ]
+    });
     res.render('stream/index',{
         page:'stream',
+        streams:data,
         csrfToken: req.csrfToken()
     });
 }

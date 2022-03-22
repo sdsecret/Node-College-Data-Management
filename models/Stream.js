@@ -33,7 +33,7 @@ Stream.init({
 Stream === sequelize.models.Stream;
 
 Stream.sync({
-    force:true
+    force:false
 })
 .then(() => {
     console.log("Stream table created ");
