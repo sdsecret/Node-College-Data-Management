@@ -11,11 +11,15 @@ Stream.init({
         autoIncrement:true
     },
     stream_name:{
-        type:DataTypes.INTEGER,
+        type:DataTypes.STRING,
         allowNull:false,
         validate:{
             notNull:{
                 args:true,
+                msg:"Stream name is required"
+            },
+            notEmpty:{
+                args:false,
                 msg:"Stream name is required"
             }
         }
@@ -29,7 +33,7 @@ Stream.init({
 Stream === sequelize.models.Stream;
 
 Stream.sync({
-    force:false
+    force:true
 })
 .then(() => {
     console.log("Stream table created ");

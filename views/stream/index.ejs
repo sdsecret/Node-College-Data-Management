@@ -18,8 +18,12 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Streams</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <button type="button" class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream" class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
       </div>
+    </div>
+
+    <div id="successAlert">
+
     </div>
 
     <div class="table-responsive">
@@ -43,4 +47,80 @@
     </div>
   </main>
 
+  
+<!-- Modal -->
+<div class="modal fade" id="addStream" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="exampleModalLabel">Add Stream</h5>
+        <button type="button" onclick="resetAll();" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="/streams" method="post" id="addStreamForm">
+        <input type="hidden" name="_csrf" id="token" value="<%= csrfToken %>">
+        <div class="modal-body">
+          <div class="form-floating">
+            <input type="text" name="name" class="form-control border-1 shadow-sm" id="streamName" placeholder="Enter stream name">
+            <label for="floatingInput">Stream Name</label>
+            <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="streamError"></span>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" onclick="resetAll();" class="btn btn-sm btn-secondary shadow-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="addStreamBtn" class="btn btn-sm btn-success shadow-sm">Save</button>
+        </div>
+      </form>
+     
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#addStreamForm').submit(function(e){
+    e.preventDefault();
+    var streamname = $('#streamName').val();
+    var token = $('#token').val();
+    $('#addStreamBtn').text('Saving..');
+    $('#addStreamBtn').prop('disabled',true);
+    $.ajax({
+      method:'post',
+      url:'/stream-store',
+      data:JSON.stringify({
+        _csrf:token,
+        name:streamname
+      }),
+      cache:false,
+      processData:false,
+      contentType: 'application/json',
+      success:function(res){
+        $('#streamName').removeClass('is-invalid');
+        $('#streamError').text('');
+        $('#addStreamBtn').text('Save');
+        $('#addStreamBtn').prop('disabled',false);
+        if(res.errors){
+          if(res.errors.stream_name){
+            $('#streamName').addClass('is-invalid');
+            $('#streamError').text(res.errors.stream_name);
+          }
+        }
+        if(res.success){
+          $('#addStreamForm')[0].reset();
+          $('#successAlert').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong id="successMsg">${res.success}</strong>
+            <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`);
+          $('#addStream').modal('hide');
+        }
+      }
+    });
+  })
+</script>
+
+<script>
+  function resetAll(){
+    $('#streamName').removeClass('is-invalid');
+    $('#streamError').text('');
+  }
+</script>
     

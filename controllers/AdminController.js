@@ -44,7 +44,7 @@ const adminRegister = async (req,res) => {
         res.json({
             "status":200,
             "errors":messages
-        })
+        });
     }
 }
 
