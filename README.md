@@ -1,1 +1,1 @@
-# College Data Management
+# Data Management
