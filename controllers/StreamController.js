@@ -15,13 +15,18 @@ const index = async (req,res) => {
 
 
 const getData = async (req,res) => {
-    let data = await Stream.findAll({
+    var size = parseInt(req.query.size);
+    var page = parseInt(req.query.page);
+    let data = await Stream.findAndCountAll({
         order:[
             ['id', 'DESC'],
-        ]
+        ],
+        limit: size,
+        offset: page * size
     });
     res.json({
-        "streams":data
+        "streams":data.rows,
+        "count":data.count
     });
 }
 

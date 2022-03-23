@@ -33,6 +33,15 @@
         <div class="col-md-12">
           <div class="card">
 
+            <div class="card-header">
+              <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <select name="size" id="recordSize" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
+                  <option value="2">2</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+
             <table class="table table-hover">
               <thead>
                 <th>#</th>
@@ -57,6 +66,12 @@
               </tbody>
             </table>
 
+            <div class="card-footer">
+              <div style="float: right;" id="paginationDiv">
+
+              </div>
+              <span id="totalRecord"></span>
+            </div>
           </div>
         </div>
 
@@ -211,17 +226,31 @@
 </script>
 
 
+
 <!-- Fetch Data -->
 <script>
   function getData(){
+    var recoedSize = $('#recordSize').val();
     $.ajax({
       method:'get',
-      url:'/streams-ajax',
+      url:`/streams-ajax?page=0&size=${recoedSize}`,
       cache:false,
       processData:false,
       success:function(res){
         $('#streamData').empty();
         if(res.streams.length > 0){
+          $('#totalRecord').text(`Total records ${res.count}`);
+          $('#paginationDiv').empty();
+
+          for(var i = 0; i<res.count; i=i+recoedSize ){
+            $('#paginationDiv').append(`
+            <input type="button" value="1" class="btn btn-sm shadow-sm text-primary">
+          `);
+          }
+         
+
+
+
           res.streams.forEach((stream,index) => {
           $('#streamData').append(`
                   <tr>
@@ -374,5 +403,12 @@
       });
     });
   }
+</script>
+
+
+<script>
+  $('#recordSize').change(function(){
+    getData();
+  });
 </script>
     
