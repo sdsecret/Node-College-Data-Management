@@ -26,7 +26,19 @@ const register = async (req,res) => {
 
 const adminRegister = async (req,res) => {
     let {name,email,password} = req.body;
+    messages = {};
     try{
+        try{
+            if(password === ''){
+                messages['password'] = "Password is required";
+                throw "Password is required";
+            }
+        }catch(e){
+            res.json({
+                "status":200,
+                "errors":messages
+            });
+        }
         let user = await Admin.create({
             name:name,
             email:email,
@@ -37,7 +49,6 @@ const adminRegister = async (req,res) => {
             "success":"Registration Successful."
         })
     }catch(e){
-        messages = {};
         e.errors.forEach(error => {
             messages[error.path] = error.message;
         });
@@ -92,8 +103,7 @@ const adminLogin = async(req,res) => {
     }
     res.json({
         'errors':messages
-    }
-   )
+    })
 }
 
 

@@ -18,7 +18,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Streams</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream" class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream" onclick="addModal();" class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
       </div>
     </div>
 
@@ -45,7 +45,7 @@
                     <td><%= stream.stream_name %></td>
                     <td><%= stream.createdAt %></td>
                     <td>
-                      <a href="" class="btn btn-sm btn-outline-warning shadow-sm"> <span data-feather="edit"></span></a>
+                      <a href="" onclick="editModal();" data-bs-toggle="modal" data-bs-target="#addStream" class="btn btn-sm btn-outline-warning shadow-sm"> <span data-feather="edit"></span></a>
                       <a href="" class="btn btn-sm btn-outline-danger shadow-sm"> <span data-feather="trash"></span></a>
                     </td>
                   </tr>
@@ -65,7 +65,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h5 class="modal-title" id="exampleModalLabel">Add Stream</h5>
+        <h5 class="modal-title" id="addStreamLabel"></h5>
         <button type="button" onclick="resetAll();" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -87,6 +87,9 @@
     </div>
   </div>
 </div>
+
+
+
 
 <script>
   $('#addStreamForm').submit(function(e){
@@ -136,4 +139,18 @@
     $('#streamError').text('');
   }
 </script>
+
+<script>
+  function addModal(){
+    $('#addStreamLabel').text('Add Stream');
+  }
+</script>
+
+<script>
+  function editModal(){
+    $('#addStreamLabel').text('Edit Stream');
+  }
+</script>
+
+
     
