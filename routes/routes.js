@@ -19,11 +19,13 @@ router.post('/admin/login',checkAuth,AdminController.adminLogin);
 router.get('/dashboard',auth,AdminController.dashboard);
 router.get('/logout',auth,AdminController.logout);
 
+
 // Stream routes
 router.get('/streams',auth, StreamController.index);
+router.get('/streams-ajax',auth, StreamController.getData);
 router.post('/stream-store',auth, StreamController.store);
 router.post('/stream-update',auth, StreamController.update);
-router.get('/stream-delete/:id',auth, StreamController.deleteStream);
+router.post('/stream-delete',auth, StreamController.deleteStream);
 
 
 module.exports = router;

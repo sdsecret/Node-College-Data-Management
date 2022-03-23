@@ -13,6 +13,19 @@ const index = async (req,res) => {
     });
 }
 
+
+const getData = async (req,res) => {
+    let data = await Stream.findAll({
+        order:[
+            ['id', 'DESC'],
+        ]
+    });
+    res.json({
+        "streams":data
+    });
+}
+
+
 const store = async (req,res) => {
     const { name } = req.body;
     try{
@@ -43,10 +56,20 @@ const update = async (req,res) => {
 
 
 const deleteStream = async (req,res) => {
-    
+    const { streamId } = req.body;
+    let data = await Stream.destroy({
+        where:{
+            id:streamId
+        }
+    });
+
+    res.json({
+        "status":200,
+        "success":"Stream Deleted"
+    });
 }
 
 
 module.exports = {
-    index,update,store,deleteStream
+    index,update,store,deleteStream,getData
 }

@@ -18,18 +18,20 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Streams</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream" onclick="addModal();" class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream"  class="btn btn-sm btn-outline-success shadow-sm"><span data-feather="plus"></span> Add Stream</button>
       </div>
     </div>
 
-    <div id="successAlert">
+    <div id="messageBox">
 
     </div>
 
-    <div class="table-responsive">
+    <!-- <div class="table-responsive"> -->
+
       <div class="row">
         <div class="col-md-12">
           <div class="card">
+
             <table class="table table-hover">
               <thead>
                 <th>#</th>
@@ -37,9 +39,9 @@
                 <th>Created At</th>
                 <th width="10%">Action</th>
               </thead>
-              <tbody>
+              <tbody id="streamData">
 
-                <% streams.forEach((stream,index) => { %>
+                <!-- <% streams.forEach((stream,index) => { %>
                   <tr>
                     <td><%= index+1 %></td>
                     <td><%= stream.stream_name %></td>
@@ -49,23 +51,27 @@
                       <a href="" class="btn btn-sm btn-outline-danger shadow-sm"> <span data-feather="trash"></span></a>
                     </td>
                   </tr>
-                <% }) %>  
+                <% }) %>   -->
   
               </tbody>
             </table>
+
           </div>
         </div>
+
       </div>
-    </div>
+
+    <!-- </div> -->
+
   </main>
 
   
-<!-- Modal -->
+<!-- Add Modal -->
 <div class="modal fade" id="addStream" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h5 class="modal-title" id="addStreamLabel"></h5>
+        <h5 class="modal-title" id="addStreamLabel">Add Stream</h5>
         <button type="button" onclick="resetAll();" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -89,8 +95,31 @@
 </div>
 
 
+ <!-- Delete Modal -->
+ <div class="modal fade"  id="confirmDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header  text-danger fw-bold border-0">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Delete</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure, you want to delete ?
+      </div>
+      <form action="" method="get" id="deleteStreamForm">
+        <input type="hidden" name="_csrf" id="deletetoken" value="<%= csrfToken %>">
+        <input type="hidden" name="streamId" id="streamid" value="">
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary btn-sm shadow-sm" data-bs-dismiss="modal">Close</button>
+          <button onclick="deleteStream();" id="deletestreambtn" type="submit" class="btn btn-danger btn-sm shadow-sm">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
+<!-- Add Stream -->
 <script>
   $('#addStreamForm').submit(function(e){
     e.preventDefault();
@@ -121,18 +150,21 @@
         }
         if(res.success){
           $('#addStreamForm')[0].reset();
-          $('#successAlert').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+          $('#messageBox').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong id="successMsg">${res.success}</strong>
             <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`);
           $('#addStream').modal('hide');
-          location.reload();
+          getData();
+          // location.reload();
         }
       }
     });
   })
 </script>
 
+
+<!-- Reset All value -->
 <script>
   function resetAll(){
     $('#streamName').removeClass('is-invalid');
@@ -140,17 +172,101 @@
   }
 </script>
 
+
 <script>
-  function addModal(){
-    $('#addStreamLabel').text('Add Stream');
+  $(document).ready(function(){
+    getData();
+  });
+</script>
+
+
+<!-- Fetch Data -->
+<script>
+  function getData(){
+    $.ajax({
+      method:'get',
+      url:'/streams-ajax',
+      cache:false,
+      processData:false,
+      success:function(res){
+        $('#streamData').empty();
+        if(res.streams.length > 0){
+          res.streams.forEach((stream,index) => {
+          $('#streamData').append(`
+                  <tr>
+                    <td>${index+1}</td>
+                    <td>${ stream.stream_name }</td>
+                    <td>${ stream.createdAt }</td>
+                    <td>
+                      <a href="#" data-bs-toggle="modal" data-bs-target="#editStream" class="btn btn-sm btn-outline-warning border-0 shadow-sm"> <i class="fa-solid fa-pen-to-square"></i> </a>
+                      <a href="#" onclick="getDeleteID('${stream.id}')" class="btn btn-sm btn-outline-danger border-0 shadow-sm"><i class="fa-solid fa-trash"></i> </a>
+                    </td>
+                  </tr>
+          `);
+        });
+        }else{
+          $('#streamData').append(`
+          <tr>
+            <td></td>
+            <td></td>
+            <td>No data found</td>
+            <td></td>
+            <td></td>
+          </tr>
+          `);
+        }
+        
+      }
+    })
+  }
+</script>
+
+
+<!-- Confirm delete -->
+<script>
+  function getDeleteRoute(route){
+      $('#confirm_del').attr('href',route);
+  }
+</script>
+
+
+<script>
+  function getDeleteID(id){
+    $('#confirmDelete').modal('show');
+    $('#streamid').val(id);
   }
 </script>
 
 <script>
-  function editModal(){
-    $('#addStreamLabel').text('Edit Stream');
+  function deleteStream(){
+    $('#deleteStreamForm').submit(function(e){
+      e.preventDefault();
+      var id = $('#streamid').val();
+      var token = $('#deletetoken').val();
+      $('#deletestreambtn').text('Deleting..');
+      $('#deletestreambtn').prop('disabled',true);
+      $.ajax({
+        method:'post',
+        url:'/stream-delete',
+        data:JSON.stringify({
+          _csrf:token,
+          streamId:id
+        }),
+        cache:false,
+        processData:false,
+        contentType:'application/json',
+        success:function(res){
+          $('#deletestreambtn').text('Delete');
+          $('#deletestreambtn').prop('disabled',false);
+          $('#messageBox').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong id="successMsg">${res.success}</strong>
+            <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`);
+          $('#confirmDelete').modal('hide');
+          getData();
+        }
+      });
+    });
   }
 </script>
-
-
     
