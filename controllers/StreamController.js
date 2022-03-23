@@ -50,8 +50,43 @@ const store = async (req,res) => {
     }
 }
 
+
+const edit = async (req,res) => {
+    let data = await Stream.findByPk(req.params.id);
+    res.json({
+        "status":200,
+        "stream":data
+    });
+}
+
+
 const update = async (req,res) => {
-    
+    const { name,streamId } = req.body;
+    try{
+        let data = await Stream.update({
+            stream_name:name
+        },{
+            where:{
+                id:streamId
+            }
+        });
+
+        res.json({
+            "status":200,
+            "success":"Stream Updated"
+        });
+
+    }catch(e){
+        messages = {};
+        e.errors.forEach(error => {
+            messages[error.path] = error.message;
+        });
+        res.json({
+            "status":200,
+            "errors":messages
+        });
+    }
+ 
 }
 
 
@@ -71,5 +106,5 @@ const deleteStream = async (req,res) => {
 
 
 module.exports = {
-    index,update,store,deleteStream,getData
+    index,update,store,deleteStream,getData,edit
 }

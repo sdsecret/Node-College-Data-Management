@@ -94,6 +94,34 @@
   </div>
 </div>
 
+<!--  Edit Modal -->
+<div class="modal fade" id="editStream" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="addStreamLabel">Edit Stream</h5>
+        <button type="button" onclick="editResetAll();" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="/stream-update" method="post" id="editStreamForm">
+        <input type="hidden" name="_csrf" id="edittoken" value="<%= csrfToken %>">
+        <input type="hidden" name="streamId" id="editstreamid" value="">
+        <div class="modal-body">
+          <div class="form-floating">
+            <input type="text" name="name" class="form-control border-1 shadow-sm" id="editStreamName" placeholder="Enter stream name">
+            <label for="floatingInput">Stream Name</label>
+            <span style="font-weight: bold; color: rgba(226, 41, 41, 0.849);"  id="editStreamError"></span>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" onclick="editResetAll();" class="btn btn-sm btn-secondary shadow-sm" data-bs-dismiss="modal">Close</button>
+          <button type="submit" id="editStreamBtn" class="btn btn-sm btn-success shadow-sm">Update</button>
+        </div>
+      </form>
+     
+    </div>
+  </div>
+</div>
 
  <!-- Delete Modal -->
  <div class="modal fade"  id="confirmDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -117,6 +145,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 <!-- Add Stream -->
@@ -198,7 +228,7 @@
                     <td>${ stream.stream_name }</td>
                     <td>${ stream.createdAt }</td>
                     <td>
-                      <a href="#" data-bs-toggle="modal" data-bs-target="#editStream" class="btn btn-sm btn-outline-warning border-0 shadow-sm"> <i class="fa-solid fa-pen-to-square"></i> </a>
+                      <a href="#"  onclick="editStream('${stream.id}')" class="btn btn-sm btn-outline-warning border-0 shadow-sm"> <i class="fa-solid fa-pen-to-square"></i> </a>
                       <a href="#" onclick="getDeleteID('${stream.id}')" class="btn btn-sm btn-outline-danger border-0 shadow-sm"><i class="fa-solid fa-trash"></i> </a>
                     </td>
                   </tr>
@@ -230,6 +260,79 @@
 </script>
 
 
+<!-- Edit Modal -->
+<script>
+  function editStream(id){
+    $('#editStream').modal('show');
+    $.ajax({
+      method:'get',
+      url:'/streams-edit/'+id,
+      cache:true,
+      processData:true,
+      success:function(res){
+        $('#editstreamid').val(res.stream.id);
+        $('#editStreamName').val(res.stream.stream_name);
+      }
+    });
+  }
+</script>
+
+<!-- Reset edit modal -->
+<script>
+  function editResetAll(){
+    $('#editStreamName').removeClass('is-invalid');
+    $('#editStreamError').text('');
+  }
+</script>
+
+
+<!-- Update Data -->
+<script>
+  $('#editStreamForm').submit(function(e){
+    e.preventDefault();
+    var streamname = $('#editStreamName').val();
+    var id = $('#editstreamid').val();
+    var token = $('#edittoken').val();
+    $('#editStreamBtn').text('Updating..');
+    $('#editStreamBtn').prop('disabled',true);
+    $.ajax({
+      method:'post',
+      url:'/stream-update',
+      data:JSON.stringify({
+        _csrf:token,
+        name:streamname,
+        streamId:id
+      }),
+      cache:false,
+      processData:false,
+      contentType: 'application/json',
+      success:function(res){
+        console.log(res);
+        $('#editStreamName').removeClass('is-invalid');
+        $('#editStreamError').text('');
+        $('#editStreamBtn').text('Update');
+        $('#editStreamBtn').prop('disabled',false);
+        if(res.errors){
+          if(res.errors.stream_name){
+            $('#editStreamName').addClass('is-invalid');
+            $('#editStreamError').text(res.errors.stream_name);
+          }
+        }
+        if(res.success){
+          $('#messageBox').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong id="successMsg">${res.success}</strong>
+            <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`);
+          $('#editStream').modal('hide');
+          getData();
+        }
+      }
+    });
+  })
+</script>
+
+
+<!-- Delete Modal -->
 <script>
   function getDeleteID(id){
     $('#confirmDelete').modal('show');
@@ -237,6 +340,8 @@
   }
 </script>
 
+
+<!-- Delete Stream -->
 <script>
   function deleteStream(){
     $('#deleteStreamForm').submit(function(e){

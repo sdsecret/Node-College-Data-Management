@@ -24,6 +24,7 @@ router.get('/logout',auth,AdminController.logout);
 router.get('/streams',auth, StreamController.index);
 router.get('/streams-ajax',auth, StreamController.getData);
 router.post('/stream-store',auth, StreamController.store);
+router.get('/streams-edit/:id',auth, StreamController.edit);
 router.post('/stream-update',auth, StreamController.update);
 router.post('/stream-delete',auth, StreamController.deleteStream);
 
