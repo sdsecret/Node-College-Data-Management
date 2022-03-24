@@ -91,7 +91,6 @@ const update = async (req,res) => {
             "errors":messages
         });
     }
- 
 }
 
 

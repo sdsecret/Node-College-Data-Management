@@ -34,11 +34,20 @@
         <div class="col-md-12">
           <div class="card">
 
-            <div class="card-header">
+            <div class="card-header" style="display: flex; justify-content: space-between;">
               <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <label class="text-primary" style="font-weight: bold;" for="">Records</label>
                 <select name="size" id="recordSize" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
-                  <option value="2">2</option>
                   <option value="5">5</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+
+              <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <label class="text-primary" style="font-weight: bold;" for="">Pages</label>
+                <select name="size" id="pageNo" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
                 </select>
               </div>
             </div>
@@ -68,9 +77,6 @@
             </table>
 
             <div class="card-footer">
-              <div style="float: right;" id="paginationDiv">
-
-              </div>
               <span id="totalRecord"></span>
             </div>
           </div>
@@ -232,26 +238,17 @@
 <script>
   function getData(){
     var recoedSize = $('#recordSize').val();
+    var page = $('#pageNo').val();
     $.ajax({
       method:'get',
-      url:`/streams-ajax?page=0&size=${recoedSize}`,
+      url:`/streams-ajax?page=${page}&size=${recoedSize}`,
       cache:false,
       processData:false,
       success:function(res){
         $('#streamData').empty();
         if(res.streams.length > 0){
           $('#totalRecord').text(`Total records ${res.count}`);
-          $('#paginationDiv').empty();
-
-          for(var i = 0; i<res.count; i=i+recoedSize ){
-            $('#paginationDiv').append(`
-            <input type="button" value="1" class="btn btn-sm shadow-sm text-primary">
-          `);
-          }
-         
-
-
-
+        
           res.streams.forEach((stream,index) => {
           $('#streamData').append(`
                   <tr>
@@ -411,5 +408,11 @@
   $('#recordSize').change(function(){
     getData();
   });
+
+  $('#pageNo').change(function(){
+    getData();
+  });
 </script>
+
+
     
