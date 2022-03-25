@@ -4,6 +4,7 @@ const router = express.Router();
 // Controllers
 const AdminController = require('../controllers/AdminController');
 const StreamController = require('../controllers/StreamController');
+const UserController = require('../controllers/UserController');
 
 // Middleware
 const {auth,checkAuth} = require('../middlewares/auth');
@@ -28,5 +29,8 @@ router.get('/streams-edit/:id',auth, StreamController.edit);
 router.post('/stream-update',auth, StreamController.update);
 router.post('/stream-delete',auth, StreamController.deleteStream);
 
+
+// Users
+router.get('/users',auth,UserController.index);
 
 module.exports = router;

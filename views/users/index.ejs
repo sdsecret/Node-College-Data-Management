@@ -1,0 +1,56 @@
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Users</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-sm btn-outline-dark shadow-sm"><i class="fa-solid fa-file-excel"></i> Export</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream"  class="btn btn-sm btn-outline-success shadow-sm"><i class="fa-solid fa-circle-plus"></i> Add Stream</button>
+      </div>
+    </div>
+
+    <div id="messageBox">
+
+    </div>
+
+    <!-- <div class="table-responsive"> -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+
+            <table class="table table-hover">
+              <thead>
+                <th>#</th>
+                <th>Stream Name</th>
+                <th>Created At</th>
+                <th width="10%">Action</th>
+              </thead>
+              <tbody id="streamData">
+
+  
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+
+    <!-- </div> -->
+  </main>

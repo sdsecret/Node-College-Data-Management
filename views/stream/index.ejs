@@ -45,10 +45,11 @@
 
               <div class="col-lg-1 col-md-2 col-sm-2 col-2">
                 <label class="text-primary" style="font-weight: bold;" for="">Pages</label>
-                <select name="size" id="pageNo" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
+                <!-- <select name="size" id="pageNo" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
                   <option value="0">0</option>
                   <option value="1">1</option>
-                </select>
+                </select> -->
+                <input type="number" id="pageNo" min="0" oninput="this.value = Math.abs(this.value)" class="form-control form-control-sm shadow-sm"  value="0">
               </div>
             </div>
 
