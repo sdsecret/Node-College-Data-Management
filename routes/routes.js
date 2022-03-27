@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Controllers
+const TestingController = require('../controllers/TestingController');
 const AdminController = require('../controllers/AdminController');
 const StreamController = require('../controllers/StreamController');
 const UserController = require('../controllers/UserController');
@@ -15,6 +16,9 @@ router.get('/login',checkAuth,AdminController.login);
 router.get('/register',checkAuth,AdminController.register);
 router.post('/admin/register',checkAuth,AdminController.adminRegister);
 router.post('/admin/login',checkAuth,AdminController.adminLogin);
+
+// Testing controller
+router.get('/user-testing-data',auth,TestingController.testUser);
 
 // Auth routed
 router.get('/dashboard',auth,AdminController.dashboard);
