@@ -49,7 +49,7 @@
                   <option value="0">0</option>
                   <option value="1">1</option>
                 </select> -->
-                <input type="number" id="pageNo" min="0" oninput="this.value = Math.abs(this.value)" class="form-control form-control-sm shadow-sm"  value="0">
+                <input type="number" id="pageNo" min="1" oninput="this.value = Math.abs(this.value)" class="form-control form-control-sm shadow-sm"  value="0">
               </div>
             </div>
 
@@ -170,7 +170,12 @@
   </div>
 </div>
 
-
+<script>
+  $(document).ready(function(){
+    setPageNo();
+    getData();
+  });
+</script>
 
 
 <!-- Add Stream -->
@@ -227,11 +232,7 @@
 </script>
 
 
-<script>
-  $(document).ready(function(){
-    getData();
-  });
-</script>
+
 
 
 
@@ -411,8 +412,18 @@
   });
 
   $('#pageNo').change(function(){
+    setPageNo();
     getData();
   });
+</script>
+
+<script>
+  function setPageNo(){
+    var page = $('#pageNo').val();
+    if(page == 0){
+      $('#pageNo').val(1)
+    }
+  }
 </script>
 
 
