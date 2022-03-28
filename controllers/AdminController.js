@@ -28,17 +28,17 @@ const adminRegister = async (req,res) => {
     let {name,email,password} = req.body;
     messages = {};
     try{
-        try{
-            if(password === ''){
-                messages['password'] = "Password is required";
-                throw "Password is required";
-            }
-        }catch(e){
-            res.json({
-                "status":200,
-                "errors":messages
-            });
-        }
+        // try{
+        //     if(password === ''){
+        //         messages['password'] = "Password is required";
+        //         throw "Password is required";
+        //     }
+        // }catch(e){
+        //     res.json({
+        //         "status":200,
+        //         "errors":messages
+        //     });
+        // }
         let user = await Admin.create({
             name:name,
             email:email,

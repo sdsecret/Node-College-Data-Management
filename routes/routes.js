@@ -6,6 +6,7 @@ const TestingController = require('../controllers/TestingController');
 const AdminController = require('../controllers/AdminController');
 const StreamController = require('../controllers/StreamController');
 const UserController = require('../controllers/UserController');
+const SubjectController = require('../controllers/SubjectController');
 
 // Middleware
 const {auth,checkAuth} = require('../middlewares/auth');
@@ -24,7 +25,6 @@ router.get('/user-testing-data',auth,TestingController.testUser);
 router.get('/dashboard',auth,AdminController.dashboard);
 router.get('/logout',auth,AdminController.logout);
 
-
 // Stream routes
 router.get('/streams',auth, StreamController.index);
 router.get('/streams-ajax',auth, StreamController.getData);
@@ -33,8 +33,10 @@ router.get('/streams-edit/:id',auth, StreamController.edit);
 router.post('/stream-update',auth, StreamController.update);
 router.post('/stream-delete',auth, StreamController.deleteStream);
 
-
 // Users
 router.get('/users',auth,UserController.index);
+
+// Subject routes
+router.get('/subjects',auth, SubjectController.index);
 
 module.exports = router;

@@ -15,7 +15,7 @@ Admin.init({
         validate:{
             notNull:true,
             notEmpty:{
-                args:false,
+                args:true,
                 msg:"Name is required"
             }
         }
@@ -33,7 +33,7 @@ Admin.init({
                 msg:"Invalid email"
             },
             notEmpty:{
-                args:false,
+                args:true,
                 msg:"Email is required"
             }
         }
@@ -44,7 +44,7 @@ Admin.init({
         validate:{
             notNull:true,
             notEmpty:{
-                args:false,
+                args:true,
                 msg:"Password is required"
             },
         }

@@ -14,7 +14,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link <% if (page === 'subjects') { %> active <% } %>" href="/subjects">
             <span data-feather="book"></span>
             Subject
           </a>
@@ -37,12 +37,12 @@
             Faculty
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link <% if (page === 'users') { %> active <% } %>" href="/users">
             <span data-feather="users"></span>
             Users
           </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="#">
             <span data-feather="settings"></span>
