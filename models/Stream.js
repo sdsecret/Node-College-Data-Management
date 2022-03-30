@@ -1,5 +1,6 @@
 const { DataTypes,Model } = require('sequelize');
 const sequelize = require('../config/database');
+const Subject = require('./Subject');
 
 class Stream extends Model {}
 
@@ -31,6 +32,9 @@ Stream.init({
 });
 
 Stream === sequelize.models.Stream;
+
+Stream.hasMany(Subject);
+Subject.belongsTo(Stream);
 
 Stream.sync({
     force:false

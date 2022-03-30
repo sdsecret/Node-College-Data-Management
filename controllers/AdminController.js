@@ -28,30 +28,30 @@ const adminRegister = async (req,res) => {
     let {name,email,password} = req.body;
     messages = {};
     try{
-        // try{
-        //     if(password === ''){
-        //         messages['password'] = "Password is required";
-        //         throw "Password is required";
-        //     }
-        // }catch(e){
-        //     res.json({
-        //         "status":200,
-        //         "errors":messages
-        //     });
-        // }
-        let user = await Admin.create({
-            name:name,
-            email:email,
-            password:await bcrypt.hash(password,10)
-        });
-        res.json({
-            "status":200,
-            "success":"Registration Successful."
-        })
+        if(password === ''){
+            messages['password'] = "Password is required";
+            throw "Password is required";
+        }
+        try{
+            let user = await Admin.create({
+                name:name,
+                email:email,
+                password:await bcrypt.hash(password,10)
+            });
+            res.json({
+                "status":200,
+                "success":"Registration Successful."
+            })
+        }catch(e){
+            e.errors.forEach(error => {
+                messages[error.path] = error.message;
+            });
+            res.json({
+                "status":200,
+                "errors":messages
+            });
+        }
     }catch(e){
-        e.errors.forEach(error => {
-            messages[error.path] = error.message;
-        });
         res.json({
             "status":200,
             "errors":messages

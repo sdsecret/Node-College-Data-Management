@@ -38,5 +38,10 @@ router.get('/users',auth,UserController.index);
 
 // Subject routes
 router.get('/subjects',auth, SubjectController.index);
+router.get('/subjects-ajax',auth, SubjectController.getData);
+router.get('/subject-create',auth, SubjectController.create);
+router.post('/subject-store',auth, SubjectController.store);
+router.get('/subject-edit/:id',auth, SubjectController.edit);
+
 
 module.exports = router;
