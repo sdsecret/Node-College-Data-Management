@@ -70,6 +70,49 @@ const edit = async (req,res) => {
     });
 }
 
+const update = async (req,res) => {
+    const {subjectId ,streamId,subjectName} = req.body;
+    try{
+        let data = await Subject.update(
+        {
+            subject_name:subjectName,
+            streamId:streamId
+        },{
+            where:{
+                id:subjectId
+            }
+        });
+        res.json({
+            "status":200,
+            "success":"Subject Updated"
+        })
+    }catch(e){
+        messages = {};
+        e.errors.forEach(error => {
+            messages[error.path] = error.message;
+        });
+        res.json({
+            "status":200,
+            "errors":messages
+        });
+    }
+}
+
+
+const deleteSubject = async (req,res) => {
+    const { subjectId } = req.body;
+    let data = await Subject.destroy({
+        where:{
+            id:subjectId
+        }
+    });
+
+    res.json({
+        "status":200,
+        "success":"Subject Deleted"
+    });
+}
+
 module.exports = {
-    index,getData,store,create,edit
+    index,getData,store,create,edit,update,deleteSubject
 }

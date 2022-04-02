@@ -110,9 +110,9 @@
         <button type="button" onclick="editResetAll();" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <form action="/stream-update" method="post" id="editStreamForm">
+      <form action="/stream-update" method="post" id="editSubjectForm">
         <input type="hidden" name="_csrf" id="edittoken" value="<%= csrfToken %>">
-        <input type="hidden" name="streamId" id="editstreamid" value="">
+        <input type="hidden" name="subjectId" id="editsubjectid" value="">
 
         <div class="modal-body">
           <div class="form-floating">
@@ -151,12 +151,12 @@
       <div class="modal-body">
         Are you sure, you want to delete ?
       </div>
-      <form action="" method="get" id="deleteStreamForm">
+      <form action="" method="get" id="deleteSubjectForm">
         <input type="hidden" name="_csrf" id="deletetoken" value="<%= csrfToken %>">
-        <input type="hidden" name="streamId" id="streamid" value="">
+        <input type="hidden" name="subjectId" id="subjectId" value="">
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary btn-sm shadow-sm" data-bs-dismiss="modal">Close</button>
-          <button onclick="deleteStream();" id="deletestreambtn" type="submit" class="btn btn-danger btn-sm shadow-sm">Delete</button>
+          <button onclick="deleteSubject();" id="deleteSubjectbtn" type="submit" class="btn btn-danger btn-sm shadow-sm">Delete</button>
         </div>
       </form>
     </div>
@@ -266,9 +266,6 @@
 
 
 
-
-
-
 <!-- Fetch Data -->
 <script>
   function getData(){
@@ -334,6 +331,7 @@
       success:function(res){
         console.log(res);
         $('#editsubjectName').val(res.subject.subject_name);
+        $('#editsubjectid').val(res.subject.id);
         $('#editstreamId').empty();
         res.streams.forEach((stream) => {
           if(res.subject.streamId == stream.id){
@@ -359,42 +357,44 @@
 <!-- Reset edit modal -->
 <script>
   function editResetAll(){
-    $('#editStreamName').removeClass('is-invalid');
-    $('#editStreamError').text('');
+    $('#editsubjectName').removeClass('is-invalid');
+    $('#editsubjectError').text('');
   }
 </script>
 
 
 <!-- Update Data -->
 <script>
-  $('#editStreamForm').submit(function(e){
+  $('#editSubjectForm').submit(function(e){
     e.preventDefault();
-    var streamname = $('#editStreamName').val();
-    var id = $('#editstreamid').val();
+    var subjectId = $('#editsubjectid').val();
+    var streamId = $('#editstreamId').val();
+    var subjectName = $('#editsubjectName').val();
     var token = $('#edittoken').val();
     $('#editStreamBtn').text('Updating..');
     $('#editStreamBtn').prop('disabled',true);
     $.ajax({
       method:'post',
-      url:'/stream-update',
+      url:'/subject-update',
       data:JSON.stringify({
         _csrf:token,
-        name:streamname,
-        streamId:id
+        subjectId:subjectId,
+        subjectName:subjectName,
+        streamId:streamId
       }),
       cache:false,
       processData:false,
       contentType: 'application/json',
       success:function(res){
         console.log(res);
-        $('#editStreamName').removeClass('is-invalid');
-        $('#editStreamError').text('');
+        $('#editsubjectName').removeClass('is-invalid');
+        $('#editsubjectError').text('');
         $('#editStreamBtn').text('Update');
         $('#editStreamBtn').prop('disabled',false);
         if(res.errors){
-          if(res.errors.stream_name){
-            $('#editStreamName').addClass('is-invalid');
-            $('#editStreamError').text(res.errors.stream_name);
+          if(res.errors.subject_name){
+            $('#editsubjectName').addClass('is-invalid');
+            $('#editsubjectError').text(res.errors.subject_name);
           }
         }
         if(res.success){
@@ -402,7 +402,7 @@
             <strong id="successMsg">${res.success}</strong>
             <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`);
-          $('#editStream').modal('hide');
+          $('#editSubject').modal('hide');
           getData();
         }
       }
@@ -415,33 +415,33 @@
 <script>
   function getDeleteID(id){
     $('#confirmDelete').modal('show');
-    $('#streamid').val(id);
+    $('#subjectId').val(id);
   }
 </script>
 
 
 <!-- Delete Stream -->
 <script>
-  function deleteStream(){
-    $('#deleteStreamForm').submit(function(e){
+  function deleteSubject(){
+    $('#deleteSubjectForm').submit(function(e){
       e.preventDefault();
-      var id = $('#streamid').val();
+      var subjectid = $('#subjectId').val();
       var token = $('#deletetoken').val();
-      $('#deletestreambtn').text('Deleting..');
-      $('#deletestreambtn').prop('disabled',true);
+      $('#deleteSubjectbtn').text('Deleting..');
+      $('#deleteSubjectbtn').prop('disabled',true);
       $.ajax({
         method:'post',
-        url:'/stream-delete',
+        url:'/subject-delete',
         data:JSON.stringify({
           _csrf:token,
-          streamId:id
+          subjectId:subjectid
         }),
         cache:false,
         processData:false,
         contentType:'application/json',
         success:function(res){
-          $('#deletestreambtn').text('Delete');
-          $('#deletestreambtn').prop('disabled',false);
+          $('#deleteSubjectbtn').text('Delete');
+          $('#deleteSubjectbtn').prop('disabled',false);
           $('#messageBox').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong id="successMsg">${res.success}</strong>
             <button type="button" class="btn-close shadowm-sm" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -474,6 +474,8 @@
     }
   }
 </script>
+
+
 
 
     
