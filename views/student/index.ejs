@@ -1,0 +1,90 @@
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Student</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-sm btn-outline-dark shadow-sm"><i class="fa-solid fa-file-excel"></i> Export</button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addStream"  class="btn btn-sm btn-outline-success shadow-sm"><i class="fa-solid fa-circle-plus"></i> Add Stream</button>
+      </div>
+    </div>
+
+    <div id="messageBox">
+
+    </div>
+
+    <!-- <div class="table-responsive"> -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+
+            <div class="card-header" style="display: flex; justify-content: space-between;">
+              <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <label class="text-primary" style="font-weight: bold;" for="">Records</label>
+                <select name="size" id="recordSize" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+
+              <div class="col-lg-1 col-md-2 col-sm-2 col-2">
+                <label class="text-primary" style="font-weight: bold;" for="">Pages</label>
+                <!-- <select name="size" id="pageNo" class="form-select form-select-sm shadow-sm" aria-label=".form-select-sm example">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                </select> -->
+                <input type="number" id="pageNo" min="1" oninput="this.value = Math.abs(this.value)" class="form-control form-control-sm shadow-sm"  value="0">
+              </div>
+            </div>
+
+            <table class="table table-hover">
+              <thead>
+                <th>#</th>
+                <th>Stream Name</th>
+                <th>Created At</th>
+                <th width="10%">Action</th>
+              </thead>
+              <tbody id="streamData">
+
+                <!-- <% streams.forEach((stream,index) => { %>
+                  <tr>
+                    <td><%= index+1 %></td>
+                    <td><%= stream.stream_name %></td>
+                    <td><%= stream.createdAt %></td>
+                    <td>
+                      <a href="" onclick="editModal();" data-bs-toggle="modal" data-bs-target="#addStream" class="btn btn-sm btn-outline-warning shadow-sm"> <span data-feather="edit"></span></a>
+                      <a href="" class="btn btn-sm btn-outline-danger shadow-sm"> <span data-feather="trash"></span></a>
+                    </td>
+                  </tr>
+                <% }) %>   -->
+  
+              </tbody>
+            </table>
+
+            <div class="card-footer">
+              <span id="totalRecord"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <!-- </div> -->
+
+  </main>

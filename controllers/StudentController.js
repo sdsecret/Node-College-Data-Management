@@ -1,7 +1,7 @@
 const Student = require('../models/Student');
 
 const index = async (req,res) => {
-
+    res.render('student/index');
 }
 
 const create = async (req,res) => {
