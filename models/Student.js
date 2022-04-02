@@ -6,75 +6,34 @@ class Student extends Model {}
 Student.init({
     id:{
         type:DataTypes.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+        primaryKey:true,
+        allowNull:false,
+        unique:true,
+        autoIncrement:true
     },
     name:{
-        name:DataTypes.STRING,
-        allowNull:false,
+        type:DataTypes.STRING,
+        allowNull:false
     },
     email:{
         type:DataTypes.STRING,
         allowNull:false,
-        validate:{
-            isNull:{
-                args:false,
-                msg:"Email is required",
-            },
-            notEmpty:{
-                args:true,
-                msg:"Email is required"
-            },
-            isEmail:{
-                args:true,
-                msg:"Invalid email"
-            }
-        }
+        unique:true
     },
     phone:{
         type:DataTypes.STRING,
-        allowNull:false,
-        validate:{
-            isNumeric:{
-                args:true,
-                msg:"Invalid phone number"
-            },
-            notEmpty:{
-                args:true,
-                msg:"Phone number is required"
-            }
-        }
-    },
-    password:{
-        type:DataTypes.STRING,
-        allowNull:false,
-        validate:{
-            min:{
-                args:8,
-                msg:"Password must be 8 character long"
-            }
-        }
-    },
-    address:{
-        type:DataTypes.STRING,
-        allowNull:false,
-        validate:{
-            notEmpty:{
-                args:true,
-                msg:"Address is required"
-            }
-        }
+        allowNull:false
     },
     streamId:{
         type:DataTypes.INTEGER,
-        allowNull:false,
-        validate:{
-            notEmpty:{
-                args:true,
-                msg:"Select a stream"
-            }
-        }
-    }
+        allowNull:false
+    },
+    address:{
+        type:DataTypes.STRING(255),
+    },
+    profile_pic:{
+        type:DataTypes.STRING,
+    },
 },{
     sequelize,
     modelName:"Student",
@@ -84,15 +43,12 @@ Student.init({
 
 Student === sequelize.models.Student;
 
-Student.sync({
-    force:false
-})
+Student.sync({force:false})
 .then(() => {
-    console.log("Student table created");
+    console.log("students table created");
 })
-.catch((err) => {
-    console.log(err);
-});
-
+.catch((e) => {
+    console.log(e);
+})
 
 module.exports = Student;

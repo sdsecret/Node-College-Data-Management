@@ -1,7 +1,18 @@
 const Student = require('../models/Student');
-
+const Stream = require('../models/Stream');
 const index = async (req,res) => {
-    res.render('student/index');
+    let data = await Student.findAll({
+        include:[
+            {
+                model:Stream,
+                attributes:['stream_name']
+            }
+        ]
+    })
+    res.render('student/index',{
+        page:'students',
+        students:data
+    });
 }
 
 const create = async (req,res) => {

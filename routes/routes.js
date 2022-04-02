@@ -7,6 +7,8 @@ const AdminController = require('../controllers/AdminController');
 const StreamController = require('../controllers/StreamController');
 const UserController = require('../controllers/UserController');
 const SubjectController = require('../controllers/SubjectController');
+const StudentController = require('../controllers/StudentController');
+
 
 // Middleware
 const {auth,checkAuth} = require('../middlewares/auth');
@@ -45,6 +47,9 @@ router.get('/subject-edit/:id',auth, SubjectController.edit);
 router.post('/subject-update',auth, SubjectController.update);
 router.post('/subject-delete',auth, SubjectController.deleteSubject);
 
+
+// Student routes
+router.get('/students',auth, StudentController.index);
 
 
 module.exports = router;

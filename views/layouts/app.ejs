@@ -8,6 +8,8 @@
     <link href="/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- Datatable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <!-- jquery -->
     <script src="/dist/js/jquery.min.js"></script>
 
@@ -33,7 +35,7 @@
 
 
 
-    <% if(page == 'dashboard' || page == 'stream' || page == 'users' || page == 'subjects') { %>
+    <% if(page == 'dashboard' || page == 'stream' || page == 'users' || page == 'subjects' || page == 'students') { %>
 
     <%- include('../partials/header.ejs') %> 
 
@@ -50,7 +52,12 @@
     <% } %>
        
    
+
     <script src="/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Datatable Scripts -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
 

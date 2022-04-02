@@ -1,5 +1,6 @@
 const { DataTypes,Model } = require('sequelize');
 const sequelize = require('../config/database');
+const Student = require('./Student');
 const Subject = require('./Subject');
 
 class Stream extends Model {}
@@ -35,6 +36,9 @@ Stream === sequelize.models.Stream;
 
 Stream.hasMany(Subject);
 Subject.belongsTo(Stream);
+
+Stream.hasMany(Student);
+Student.belongsTo(Stream);
 
 Stream.sync({
     force:false
