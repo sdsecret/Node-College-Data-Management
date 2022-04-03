@@ -15,10 +15,26 @@ Student.init({
         type:DataTypes.STRING,
         allowNull:false
     },
+    roll:{
+        type:DataTypes.STRING,
+        allowNull:false,
+    },
     email:{
         type:DataTypes.STRING,
         allowNull:false,
         unique:true
+    },
+    password:{
+        type:DataTypes.STRING,
+        allowNull:false
+    },
+    session:{
+        type:DataTypes.STRING,
+        allowNull:false
+    },
+    semester:{
+        type:DataTypes.STRING,
+        allowNull:false
     },
     phone:{
         type:DataTypes.STRING,
