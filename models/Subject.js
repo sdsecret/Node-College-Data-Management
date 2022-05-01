@@ -45,7 +45,7 @@ Subject === sequelize.models.Subject;
 
 Subject.sync({force:false})
 .then(() => {
-    console.log("Subject table created");
+    // console.log("Subject table created");
 })
 .catch((err) => {
     console.log(err);

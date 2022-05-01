@@ -25,7 +25,7 @@ User === sequelize.models.User;
 
 User.sync({force:false})
 .then(() => {
-    console.log("User Table Created");
+    // console.log("User Table Created");
 })
 .catch((err) => {
     console.log(err);

@@ -59,10 +59,10 @@ Admin === sequelize.models.Admin;
 
 Admin.sync({force:false})
 .then(() => {
-    console.log("Admin table sync.");
+    // console.log("Admin table sync.");
 })
 .catch((err) => {
-    console.log("some error occurs..");
+    // console.log("some error occurs..");
 })
 
 module.exports = Admin;

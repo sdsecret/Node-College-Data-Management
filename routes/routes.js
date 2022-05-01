@@ -56,7 +56,7 @@ router.get('/students',auth, StudentController.index);
 router.get('/student-create',auth, StudentController.create);
 router.post('/student-store',auth,studentProfilePic.fields([
     {name:'profile_pic',maxCount:1}
-]) ,studentStore ,StudentController.store);
+])  ,StudentController.store);
 router.get('/student-edit',auth, StudentController.edit);
 router.post('/student-update',auth, StudentController.update);
 router.post('/student-delete',auth, StudentController.deleteStudent);

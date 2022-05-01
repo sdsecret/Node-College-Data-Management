@@ -29,26 +29,30 @@ const create = async (req,res) => {
 }
 
 const store = async (req,res) => {
-    var errors = validationResult(req);
-    if(!errors.isEmpty()){
-        console.log(errors);
-        req.flash('errors', errors.array());
-        res.redirect('/student-create');
-    }else{
-        let data = await Student.create({
-            name:req.body.name,
-            profile_pic: req.files.profile_pic[0].filename,
-            email:req.body.email,
-            phone:req.body.phone,
-            streamId:req.body.stream,
-            semester:req.body.semester,
-            session:req.body.session,
-            email:req.body.email,
-            password:await bcrypt.hash(req.body.password,10)
-        });
-        req.flash('success', "Student Added Successfully.");
-        res.redirect('/api/emp');
-    }
+    console.log(req.body);
+    res.json({
+        "data":req.body
+    })
+    // var errors = validationResult(req);
+    // if(!errors.isEmpty()){
+    //     console.log(errors);
+    //     req.flash('errors', errors.array());
+    //     res.redirect('/student-create');
+    // }else{
+    //     let data = await Student.create({
+    //         name:req.body.name,
+    //         profile_pic: req.files.profile_pic[0].filename,
+    //         email:req.body.email,
+    //         phone:req.body.phone,
+    //         streamId:req.body.stream,
+    //         semester:req.body.semester,
+    //         session:req.body.session,
+    //         email:req.body.email,
+    //         password:await bcrypt.hash(req.body.password,10)
+    //     });
+    //     req.flash('success', "Student Added Successfully.");
+    //     res.redirect('/api/emp');
+    // }
 }
 
 const edit = async (req,res) => {

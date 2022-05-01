@@ -44,7 +44,7 @@ Stream.sync({
     force:false
 })
 .then(() => {
-    console.log("Stream table created ");
+    // console.log("Stream table created ");
 })
 .catch((err) => {
     console.log(err);

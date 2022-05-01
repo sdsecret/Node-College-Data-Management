@@ -61,7 +61,7 @@ Student === sequelize.models.Student;
 
 Student.sync({force:false})
 .then(() => {
-    console.log("students table created");
+    // console.log("students table created");
 })
 .catch((e) => {
     console.log(e);
