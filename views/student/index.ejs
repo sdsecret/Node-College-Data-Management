@@ -41,6 +41,7 @@
         <% } %>
         <div class="col-md-12">
           <div class="card border-0">
+          <div class="card p-2 shadow-sm border-0">
             <table class="table table-hover" id="Datatable">
               <thead>
                 <th>#</th>
@@ -58,12 +59,12 @@
               </thead>
               <tbody>
 
-                <% students.forEach((student) => { %>
+                <% students.forEach((student,index) => { %>
                     <tr>
-                        <td><%= student.id %></td>
+                        <td><%= index+1 %></td>
                         <td><%= student.name %></td>
                         <td>
-                            <img src="/students/<%= student.profile_pic %>" alt="<%= student.name %>" class="rounded-circle" width="20">
+                            <img src="/students/<%= student.profile_pic %>" alt="<%= student.name %>" class="rounded-circle" width="50" height="50" style="object-fit: cover;">
                         </td>
                         <td><%= student.Stream.stream_name %></td>
                         <td><%= student.semester %></td>
@@ -92,6 +93,8 @@
 
   <script>
     $(document).ready(function() {
-      $('#Datatable').DataTable();
+      $('#Datatable').DataTable({
+        order: [[0, 'asc']]
+      });
     });
   </script>

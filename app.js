@@ -12,7 +12,7 @@ var expressLayouts = require('express-ejs-layouts');
 const flash = require('express-flash');
 
 // csrf Token
-const csrf = require('csurf');
+var csrf = require('csurf');
 var csrfProtection = csrf({ cookie: true })
 
 

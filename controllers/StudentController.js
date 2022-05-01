@@ -10,6 +10,9 @@ const index = async (req,res) => {
                 model:Stream,
                 attributes:['stream_name']
             }
+        ],
+        order:[
+            ['id','DESC']
         ]
     })
     res.render('student/index',{
