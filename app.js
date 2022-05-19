@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const { authUser } = require('./middlewares/auth');
-
+var morgan = require('morgan')
 const router = require('./routes/routes');
 const session = require('express-session');
 
@@ -15,6 +15,8 @@ const flash = require('express-flash');
 var csrf = require('csurf');
 var csrfProtection = csrf({ cookie: true })
 
+// dev
+app.use(morgan(process.env.APP_DEBUG));
 
 // Middlewares
 app.use(express.static(__dirname+'/public'));
